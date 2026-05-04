@@ -1,0 +1,1 @@
+{"dependencies":{"@element-plus/icons-vue":"^2.3.1","axios":"^1.6.7","element-plus":"^2.6.1","pinia":"^2.1.7","vue":"^3.4.21","vue-router":"^4.3.0"},"devDependencies":{"@vitejs/plugin-vue":"^5.0.4","vite":"^5.2.0"},"name":"labweb-frontend","private":true,"scripts":{"build":"vite build","dev":"vite","preview":"vite preview"},"type":"module","version":"1.0.0"}

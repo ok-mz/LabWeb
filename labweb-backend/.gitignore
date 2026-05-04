@@ -1,0 +1,20 @@
+/target/
+*.jar
+*.class
+!**/src/main/**/*.jar
+!**/src/test/**/*.jar
+
+# Maven
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+
+# IDE
+.idea/
+*.iml
+
+# Env
+.env
+
+# Upload directory
+labweb-backend/uploads/
