@@ -17,9 +17,6 @@ public class Agent {
     private String apiHost;
     private Integer apiPort;
     private String apiPath;
-    private String apiUrl;
-    private String method;
-    private String permission;
     private String status;
     private Integer sortOrder;
     @TableField(fill = FieldFill.INSERT)

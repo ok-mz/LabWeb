@@ -12,10 +12,8 @@ public class Tool {
     private String name;
     private String icon;
     private String summary;
-    private String type;
     private String accessUrl;
     private String docUrl;
-    private String permission;
     private String status;
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createdAt;
