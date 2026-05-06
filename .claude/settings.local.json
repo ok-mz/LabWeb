@@ -11,7 +11,23 @@
       "Bash(curl *)",
       "Bash(python *)",
       "Bash(printf '\\\\n        if \\(isRepresentative != null\\) {\\\\n            wrapper.eq\\(Publication::getIsRepresentative, isRepresentative\\);\\\\n        }\\\\n')",
-      "Read(//tmp/**)"
+      "Read(//tmp/**)",
+      "Bash(mvn spring-boot:run)",
+      "Bash(netstat -ano)",
+      "Bash(findstr :8080)",
+      "Bash(taskkill *)",
+      "Bash(tasklist)",
+      "Bash(findstr /I \"java\")",
+      "Bash(tasklist *)",
+      "Bash(1)",
+      "Bash(powershell *)",
+      "Bash(timeout 3 bash -c \"while ! nc -z localhost 8080 2>/dev/null; do sleep 0.5; done; echo 'port open'\")",
+      "Bash(findstr :8081)",
+      "Bash(findstr :3000)",
+      "Bash(mvn compile *)",
+      "Bash(echo \"PID=$!\")",
+      "Bash(mvn clean *)",
+      "Bash(tee /tmp/backend.log)"
     ]
   }
 }
