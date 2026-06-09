@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.labweb.common.Result;
 import com.labweb.entity.Agent;
+import com.labweb.entity.AgentUsageLog;
 import com.labweb.service.AgentService;
+import com.labweb.service.AgentUsageLogService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +21,9 @@ public class AgentController {
 
     @Autowired
     private AgentService agentService;
+
+    @Autowired
+    private AgentUsageLogService agentUsageLogService;
 
     @GetMapping("/agents")
     public Result<Map<String, Object>> list(
@@ -41,12 +47,39 @@ public class AgentController {
     }
 
     @GetMapping("/agents/{id}")
-    public Result<Agent> detail(@PathVariable Long id) {
+    public Result<Agent> detail(@PathVariable Long id, HttpServletRequest request) {
         Agent agent = agentService.getById(id);
         if (agent == null) {
             return Result.error("助手不存在");
         }
+        // Record agent usage
+        try {
+            AgentUsageLog log = new AgentUsageLog();
+            log.setAgentId(agent.getId());
+            log.setAgentName(agent.getName());
+            Long userId = (Long) request.getAttribute("userId");
+            String username = (String) request.getAttribute("username");
+            log.setUserId(userId);
+            log.setUsername(username != null ? username : "anonymous");
+            log.setAccessType(agent.getIntegrationType());
+            log.setIp(getClientIp(request));
+            log.setUserAgent(request.getHeader("User-Agent"));
+            agentUsageLogService.recordUsage(log);
+        } catch (Exception ignored) {
+        }
         return Result.success(agent);
+    }
+
+    private String getClientIp(HttpServletRequest request) {
+        String ip = request.getHeader("X-Forwarded-For");
+        if (ip != null && !ip.isEmpty() && !"unknown".equalsIgnoreCase(ip)) {
+            return ip.split(",")[0].trim();
+        }
+        ip = request.getHeader("X-Real-IP");
+        if (ip != null && !ip.isEmpty() && !"unknown".equalsIgnoreCase(ip)) {
+            return ip;
+        }
+        return request.getRemoteAddr();
     }
 
     @PostMapping("/admin/agents")

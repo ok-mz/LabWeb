@@ -31,6 +31,16 @@
           </template>
         </el-table-column>
       </el-table>
+
+      <div class="pagination-row" v-if="total > pageSize">
+        <el-pagination
+          v-model:current-page="currentPage"
+          :page-size="pageSize"
+          :total="total"
+          layout="prev, pager, next, total"
+          @current-change="fetchData"
+        />
+      </div>
     </div>
 
     <!-- 新增/编辑弹窗 -->
@@ -112,6 +122,9 @@ import { getAgents, createAgent, updateAgent, deleteAgent } from '@/api/agent'
 import { uploadFile } from '@/api/file'
 
 const list = ref([])
+const total = ref(0)
+const currentPage = ref(1)
+const pageSize = 10
 const loading = ref(false)
 const dialogVisible = ref(false)
 const isEdit = ref(false)
@@ -204,8 +217,10 @@ async function handleDelete(id) {
 async function fetchData() {
   loading.value = true
   try {
-    const res = await getAgents()
-    list.value = res.data.data || []
+    const res = await getAgents({ page: currentPage.value, pageSize })
+    const data = res.data.data
+    list.value = data.records || []
+    total.value = data.total || 0
   } finally {
     loading.value = false
   }
@@ -219,4 +234,5 @@ onMounted(() => { fetchData() })
 .admin-card { background: #fff; border-radius: 8px; padding: 24px 28px; }
 .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
 .card-header h3 { font-size: 18px; color: #1a3a5c; }
+.pagination-row { display: flex; justify-content: center; margin-top: 20px; }
 </style>

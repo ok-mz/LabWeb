@@ -8,4 +8,5 @@ import java.util.List;
 public interface OperationLogService extends IService<OperationLog> {
     List<OperationLog> listByPage(Integer page, Integer pageSize);
     Long countTotal();
+    void recordLog(OperationLog log);
 }

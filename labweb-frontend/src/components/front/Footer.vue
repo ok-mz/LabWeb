@@ -1,69 +1,109 @@
 <template>
   <footer class="footer">
     <div class="footer-inner">
-      <div class="footer-section">
-        <h4>生物信息学与基因组学实验室</h4>
-        <p>XX大学生命科学学院</p>
-        <p>生命科学楼A座501室</p>
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="@/assets/images/logo.png" alt="校徽" class="footer-logo" />
+          <span class="footer-lab">{{ labInfo?.labName || '生物信息学与基因组学实验室' }}</span>
+        </div>
+        <div class="footer-links">
+          <router-link to="/research">研究方向</router-link>
+          <router-link to="/publications">发表成果</router-link>
+          <router-link to="/tools">科研工具</router-link>
+          <router-link to="/agents">智能助手</router-link>
+          <router-link to="/contact">联系我们</router-link>
+        </div>
       </div>
-      <div class="footer-section">
-        <h4>研究方向</h4>
-        <p>结构变异 · 三维基因组</p>
-        <p>泛基因组 · AI制药</p>
-      </div>
-      <div class="footer-section">
-        <h4>联系方式</h4>
-        <p>邮箱：lab@xxu.edu.cn</p>
-        <p>电话：010-XXXX-XXXX</p>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <p>Copyright &copy; {{ currentYear }} 生物信息学与基因组学实验室. All Rights Reserved.</p>
+      <p class="footer-copy">&copy; {{ currentYear }} {{ labInfo?.labName || '生物信息学与基因组学实验室' }} · {{ labInfo?.email || 'lab@xxu.edu.cn' }}</p>
     </div>
   </footer>
 </template>
 
 <script setup>
+import { computed, onMounted } from 'vue'
+import { useLabStore } from '@/stores/lab'
+
+const labStore = useLabStore()
+const labInfo = computed(() => labStore.labInfo)
 const currentYear = new Date().getFullYear()
+
+onMounted(() => { labStore.fetchLabInfo() })
 </script>
 
 <style scoped>
 .footer {
-  background: #1a3a5c;
-  color: #ccc;
-  padding: 0;
-  margin-top: 60px;
+  margin-top: 48px;
+  background: #eef3f7;
+  border-top: 1px solid var(--color-border);
 }
+
 .footer-inner {
-  max-width: 1200px;
+  width: min(var(--container), calc(100% - 40px));
   margin: 0 auto;
-  padding: 48px 20px 32px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
+  padding: 28px 0 20px;
 }
-.footer-section h4 {
-  color: #fff;
-  font-size: 16px;
+
+.footer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 16px;
-  font-weight: 600;
 }
-.footer-section p {
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+.footer-lab {
   font-size: 14px;
-  line-height: 2;
-  color: #aaa;
+  font-weight: 600;
+  color: var(--color-primary);
 }
-.footer-copyright {
-  text-align: center;
-  padding: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-links a {
   font-size: 13px;
-  color: #777;
+  color: var(--color-muted);
+  transition: color 0.15s ease;
 }
-@media (max-width: 768px) {
+
+.footer-links a:hover {
+  color: var(--color-primary);
+}
+
+.footer-copy {
+  font-size: 12px;
+  color: #8a9aac;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-border);
+}
+
+@media (max-width: 640px) {
   .footer-inner {
-    grid-template-columns: 1fr;
-    gap: 24px;
+    width: min(100% - 28px, var(--container));
+  }
+
+  .footer-top {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .footer-links {
+    gap: 14px;
+    flex-wrap: wrap;
   }
 }
 </style>

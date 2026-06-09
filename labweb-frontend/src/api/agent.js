@@ -1,7 +1,7 @@
 import request from './index'
 
-export function getAgents() {
-  return request.get('/agents')
+export function getAgents(params) {
+  return request.get('/agents', { params })
 }
 
 export function getAgentDetail(id) {

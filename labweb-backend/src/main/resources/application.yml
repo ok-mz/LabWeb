@@ -1,5 +1,6 @@
 server:
   port: 8080
+  address: 0.0.0.0
   servlet:
     encoding:
       charset: UTF-8
@@ -7,6 +8,9 @@ server:
       force: true
 
 spring:
+  sql:
+    init:
+      mode: always
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:labweb}?useUnicode=true&characterEncoding=UTF-8&connectionCollation=utf8mb4_unicode_ci&serverTimezone=Asia/Shanghai&createDatabaseIfNotExist=true
     username: ${MYSQL_USER:root}

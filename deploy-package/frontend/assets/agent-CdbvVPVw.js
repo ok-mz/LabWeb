@@ -1,0 +1,1 @@
+import{r as e}from"./index-Cnan1Aaa.js";function r(t){return e.get("/agents",{params:t})}function s(t){return e.post("/admin/agents",t)}function u(t,n){return e.put(`/admin/agents/${t}`,n)}function g(t){return e.delete(`/admin/agents/${t}`)}export{s as c,g as d,r as g,u};

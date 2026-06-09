@@ -31,4 +31,9 @@ public class OperationLogServiceImpl extends ServiceImpl<OperationLogMapper, Ope
     public Long countTotal() {
         return this.count();
     }
+
+    @Override
+    public void recordLog(OperationLog log) {
+        this.save(log);
+    }
 }

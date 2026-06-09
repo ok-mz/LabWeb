@@ -76,6 +76,16 @@ const routes = [
         path: 'agents',
         name: 'AdminAgents',
         component: () => import('@/views/admin/Agents.vue')
+      },
+      {
+        path: 'operation-logs',
+        name: 'AdminOperationLogs',
+        component: () => import('@/views/admin/OperationLogs.vue')
+      },
+      {
+        path: 'agent-usage-logs',
+        name: 'AdminAgentUsageLogs',
+        component: () => import('@/views/admin/AgentUsageLogs.vue')
       }
     ]
   }

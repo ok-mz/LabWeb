@@ -4,100 +4,153 @@
   box-sizing: border-box;
 }
 
+:root {
+  --color-ink: #102235;
+  --color-muted: #4a5e73;
+  --color-subtle: #8a9aac;
+  --color-primary: #1d6f8a;
+  --color-primary-deep: #123b5a;
+  --color-primary-soft: #e8f4f7;
+  --color-accent: #25a99a;
+  --color-bg: #f6f9fb;
+  --color-surface: #ffffff;
+  --color-surface-warm: #fbfcf8;
+  --color-border: #dce7ee;
+  --shadow-sm: 0 4px 14px rgba(16, 34, 53, 0.06);
+  --shadow-md: 0 14px 36px rgba(16, 34, 53, 0.1);
+  --radius: 8px;
+  --container: 1200px;
+
+  --el-color-primary: #1d6f8a;
+  --el-color-primary-light-3: #5499ad;
+  --el-color-primary-light-5: #8ab8c5;
+  --el-color-primary-light-7: #c1dce4;
+  --el-color-primary-light-9: #e8f4f7;
+  --el-color-primary-dark-2: #123b5a;
+}
+
 body {
-  font-family: 'Microsoft YaHei', 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
-  color: #333;
-  background-color: #f5f7fa;
   min-height: 100vh;
+  color: var(--color-ink);
+  background-color: #f8fafb;
+  background-image: url("../images/background.png");
+  background-size: cover;
+  background-attachment: fixed;
+  font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
-  text-decoration: none;
   color: inherit;
+  text-decoration: none;
 }
 
 .container {
-  max-width: 1200px;
+  width: min(var(--container), calc(100% - 40px));
   margin: 0 auto;
-  padding: 0 20px;
 }
 
-/* 页面通用标题区 */
 .page-banner {
-  background: linear-gradient(135deg, #1a3a5c 0%, #2a6496 100%);
-  color: #fff;
-  padding: 60px 0;
+  position: relative;
+  padding: 40px 20px;
   text-align: center;
+  background: linear-gradient(135deg, #e8f0f5, #f0f6f8);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .page-banner h1 {
-  font-size: 32px;
-  font-weight: 600;
-  margin-bottom: 12px;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-ink);
 }
 
 .page-banner p {
-  font-size: 16px;
-  opacity: 0.85;
+  max-width: 600px;
+  margin: 8px auto 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-muted);
 }
 
-/* 页面主体区域 */
 .page-content {
-  max-width: 1200px;
+  width: min(var(--container), calc(100% - 40px));
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 48px 0 72px;
 }
 
-/* 卡片通用样式 */
+.section-title {
+  font-size: 30px;
+  line-height: 1.25;
+  color: var(--color-ink);
+  font-weight: 700;
+}
+
+.section-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  color: var(--color-primary);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.section-kicker::before {
+  content: "";
+  width: 24px;
+  height: 2px;
+  background: var(--color-accent);
+}
+
+.muted-text {
+  color: var(--color-muted);
+  line-height: 1.8;
+}
+
 .card-item {
-  background: #fff;
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
   padding: 24px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .card-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+  border-color: rgba(29, 111, 138, 0.35);
+  box-shadow: var(--shadow-md);
 }
 
-/* 标签样式 */
 .tag {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
   padding: 2px 10px;
-  border-radius: 4px;
+  border-radius: 999px;
   font-size: 12px;
-  color: #2a6496;
-  background: #e8f4fd;
+  font-weight: 600;
+  color: var(--color-primary);
+  background: var(--color-primary-soft);
 }
 
-/* 页脚样式 */
-.footer {
-  background: #1a3a5c;
-  color: #ccc;
-  padding: 40px 0 20px;
-  text-align: center;
-  margin-top: 60px;
+.el-button {
+  border-radius: 8px;
 }
 
-.footer .footer-info {
-  font-size: 14px;
-  line-height: 2;
-}
+@media (max-width: 768px) {
+  .container,
+  .page-content {
+    width: min(100% - 28px, var(--container));
+  }
 
-.footer .footer-copyright {
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  font-size: 13px;
-  color: #999;
-}
+  .page-banner {
+    padding: 54px 18px 48px;
+  }
 
-/* Element Plus 主题色覆写 */
-:root {
-  --el-color-primary: #2a6496;
-  --el-color-primary-light-3: #4a8bc2;
-  --el-color-primary-light-5: #6da8d4;
-  --el-color-primary-dark-2: #1a4a6e;
+  .page-banner h1 {
+    font-size: 30px;
+  }
 }

@@ -4,32 +4,36 @@
 
     <section class="page-banner">
       <h1>智能助手</h1>
-      <p>实验室自主研发的AI智能分析平台，助力科学研究与数据分析</p>
+      <p>整合实验室自研与外部接入的 AI 分析工具，为基因组数据解析、药物研发和科研问答提供快捷入口。</p>
     </section>
 
-    <div class="page-content">
-      <el-skeleton v-if="loading" :rows="6" animated />
+    <main class="page-content">
+      <el-skeleton v-if="loading" :rows="8" animated />
 
       <template v-else-if="agents.length > 0">
+        <div class="agents-toolbar">
+          <div>
+            <span class="section-kicker">AI Agents</span>
+            <h2 class="section-title">工具矩阵</h2>
+          </div>
+          <p class="muted-text">点击可用工具进入对应服务；访问记录会用于后续统计和维护。</p>
+        </div>
+
         <el-row :gutter="24">
-          <el-col v-for="item in agents" :key="item.id" :xs="24" :sm="12" :md="6">
-            <div class="agent-card card-item">
+          <el-col v-for="item in agents" :key="item.id" :xs="24" :sm="12" :md="8" :lg="6">
+            <article class="agent-card card-item">
               <div class="agent-header">
                 <div class="agent-icon">
-                  <el-image v-if="item.icon" :src="item.icon" fit="contain" style="width:56px;height:56px" />
-                  <el-icon v-else :size="48"><Cpu /></el-icon>
+                  <el-image v-if="item.icon" :src="item.icon" fit="contain" style="width:48px;height:48px" />
+                  <el-icon v-else :size="30"><Cpu /></el-icon>
                 </div>
-                <el-tag
-                  :type="statusType(item.status)"
-                  size="small"
-                  effect="plain"
-                >
+                <el-tag :type="statusType(item.status)" size="small" effect="plain">
                   {{ item.status || '未接入' }}
                 </el-tag>
               </div>
 
               <h3>{{ item.name }}</h3>
-              <p class="agent-summary">{{ item.summary }}</p>
+              <p class="agent-summary">{{ item.summary || '该智能助手正在完善说明。' }}</p>
 
               <div class="agent-meta">
                 <span class="meta-item">
@@ -46,13 +50,13 @@
               >
                 {{ item.status === '可用' ? '立即使用' : '暂不可用' }}
               </el-button>
-            </div>
+            </article>
           </el-col>
         </el-row>
       </template>
 
       <el-empty v-else description="暂无智能助手" />
-    </div>
+    </main>
 
     <Footer />
   </div>
@@ -68,12 +72,12 @@ const agents = ref([])
 const loading = ref(true)
 
 function statusType(status) {
-  const map = { '可用': 'success', '未接入': 'info', '维护中': 'warning', '停用': 'danger' }
+  const map = { 可用: 'success', 未接入: 'info', 维护中: 'warning', 停用: 'danger' }
   return map[status] || 'info'
 }
 
 function integrationLabel(type) {
-  const map = { link: '外部链接', iframe: '内嵌页面', api: 'API接口' }
+  const map = { link: '外部链接', iframe: '内嵌页面', api: 'API 接口' }
   return map[type] || '外部链接'
 }
 
@@ -85,8 +89,9 @@ function useAgent(item) {
 
 onMounted(async () => {
   try {
-    const res = await getAgents()
-    agents.value = res.data.data || []
+    const res = await getAgents({ pageSize: 100 })
+    const data = res.data.data
+    agents.value = data.records || []
   } finally {
     loading.value = false
   }
@@ -94,52 +99,87 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.agents-toolbar {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 30px;
+}
+
+.agents-toolbar .muted-text {
+  max-width: 460px;
+}
+
 .agent-card {
+  min-height: 320px;
   margin-bottom: 24px;
-  padding: 28px 24px;
-  text-align: center;
-  min-height: 280px;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
+
 .agent-header {
-  width: 100%;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 16px;
+  gap: 16px;
+  margin-bottom: 18px;
 }
+
 .agent-icon {
-  color: #2a6496;
+  width: 58px;
+  height: 58px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  border-radius: 8px;
+  background: var(--color-primary-soft);
 }
+
 .agent-card h3 {
-  font-size: 18px;
-  color: #1a3a5c;
+  color: var(--color-ink);
+  font-size: 19px;
+  line-height: 1.35;
   margin-bottom: 10px;
 }
+
 .agent-summary {
-  font-size: 13px;
-  color: #888;
-  line-height: 1.7;
   flex: 1;
+  color: var(--color-muted);
+  font-size: 14px;
+  line-height: 1.75;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
+
 .agent-meta {
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
+
 .meta-item {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  color: var(--color-muted);
   font-size: 13px;
-  color: #999;
+  padding: 6px 10px;
+  background: var(--color-surface-warm);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
 }
+
 .agent-btn {
   width: 100%;
+}
+
+@media (max-width: 768px) {
+  .agents-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
 </style>

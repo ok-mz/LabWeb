@@ -105,6 +105,42 @@ CREATE TABLE IF NOT EXISTS `file_resource` (
 -- 但 IGNORE / ON DUPLICATE KEY 保证不会重复插入）
 -- =============================================
 
+CREATE TABLE IF NOT EXISTS `operation_log` (
+    `id`          BIGINT       NOT NULL AUTO_INCREMENT,
+    `user_id`     BIGINT       NOT NULL,
+    `username`    VARCHAR(50)  NOT NULL,
+    `module`      VARCHAR(50)  NOT NULL,
+    `action`      VARCHAR(50)  NOT NULL,
+    `method`      VARCHAR(10)  NOT NULL,
+    `path`        VARCHAR(200) NOT NULL,
+    `ip`          VARCHAR(50),
+    `status`      TINYINT      NOT NULL DEFAULT 1,
+    `details`     TEXT,
+    `created_at`  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    KEY `idx_user` (`user_id`),
+    KEY `idx_module` (`module`),
+    KEY `idx_created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `agent_usage_log` (
+    `id`          BIGINT       NOT NULL AUTO_INCREMENT,
+    `agent_id`    BIGINT       NOT NULL,
+    `agent_name`  VARCHAR(200) NOT NULL,
+    `user_id`     BIGINT,
+    `username`    VARCHAR(50),
+    `access_type` VARCHAR(20)  NOT NULL,
+    `ip`          VARCHAR(50),
+    `user_agent`  VARCHAR(500),
+    `status_code` INT          NOT NULL DEFAULT 200,
+    `duration`    INT,
+    `created_at`  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    KEY `idx_agent` (`agent_id`),
+    KEY `idx_user` (`user_id`),
+    KEY `idx_created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 INSERT IGNORE INTO `user` (`username`, `password_hash`, `email`, `status`) VALUES
 ('admin', '$2b$12$DgN.m.O7oPC4DZNCRf/3aeEGix7Z3mHXpD1K6R2f785o9M3MrgGXG', 'admin@lab.edu.cn', 1);
 
