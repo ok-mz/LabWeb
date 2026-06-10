@@ -1,0 +1,1 @@
+import{r as i}from"./index-BjXBIDav.js";function a(t){return i.get("/publications",{params:t})}function e(t){return i.post("/admin/publications",t)}function o(t,n){return i.put(`/admin/publications/${t}`,n)}function c(t){return i.delete(`/admin/publications/${t}`)}export{e as c,c as d,a as g,o as u};

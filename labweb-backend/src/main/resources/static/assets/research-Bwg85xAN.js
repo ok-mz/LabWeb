@@ -1,0 +1,1 @@
+import{r}from"./index-BjXBIDav.js";function s(){return r.get("/research-directions")}function a(e){return r.get(`/research-directions/${e}`)}function c(e){return r.post("/admin/research-directions",e)}function i(e,t){return r.put(`/admin/research-directions/${e}`,t)}function o(e){return r.delete(`/admin/research-directions/${e}`)}export{a,c,o as d,s as g,i as u};

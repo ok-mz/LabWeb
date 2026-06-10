@@ -1,0 +1,1 @@
+import{r as t}from"./index-BjXBIDav.js";function r(){return t.get("/tools")}function s(o){return t.post("/admin/tools",o)}function u(o,e){return t.put(`/admin/tools/${o}`,e)}function a(o){return t.delete(`/admin/tools/${o}`)}export{s as c,a as d,r as g,u};
